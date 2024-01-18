@@ -1,0 +1,3 @@
+([('game',
+   '/Users/macbookpro/Documents/NumberGuessingGame/dist/game',
+   'EXECUTABLE')],)
