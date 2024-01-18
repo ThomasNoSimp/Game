@@ -59,8 +59,9 @@ class Target(pygame.sprite.Sprite):
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.Surface((EXPLOSION_SIZE, EXPLOSION_SIZE))
-        self.image.fill(RED)
+        self.explosion_image = pygame.image.load("explosion.gif")  # Load explosion image
+        self.explosion_image = pygame.transform.scale(self.explosion_image, (EXPLOSION_SIZE, EXPLOSION_SIZE))
+        self.image = self.explosion_image
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.explosion_duration = 10
