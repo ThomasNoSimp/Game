@@ -7,6 +7,7 @@ WIDTH, HEIGHT = 800, 600
 PLAYER_SIZE = 50
 BULLET_SIZE = 10
 TARGET_SIZE = 30
+EXPLOSION_SIZE = 50  # Size of the explosion effect
 FPS = 60
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
@@ -54,6 +55,21 @@ class Target(pygame.sprite.Sprite):
             self.rect.x = random.randint(0, WIDTH - TARGET_SIZE)
             self.rect.y = random.randint(0, HEIGHT // 2)
 
+# Explosion class
+class Explosion(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((EXPLOSION_SIZE, EXPLOSION_SIZE))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.explosion_duration = 10
+
+    def update(self):
+        self.explosion_duration -= 1
+        if self.explosion_duration <= 0:
+            self.kill()
+
 # Game initialization
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -63,6 +79,7 @@ clock = pygame.time.Clock()
 player = Player()
 bullets = pygame.sprite.Group()
 targets = pygame.sprite.Group()
+explosions = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
@@ -98,6 +115,9 @@ while running:
     # Check for collisions between bullets and targets
     hits = pygame.sprite.groupcollide(targets, bullets, True, True)
     for hit in hits:
+        explosion = Explosion(hit.rect.centerx, hit.rect.centery)
+        explosions.add(explosion)
+        all_sprites.add(explosion)
         target = Target()
         targets.add(target)
         all_sprites.add(target)
