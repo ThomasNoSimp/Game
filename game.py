@@ -223,8 +223,3 @@ if show_login_screen():
 
     pygame.quit()
     sys.exit()
-
-def cute():
-    girls = get(ALL_GIRLS_IN_THE_WORLD)
-    for girls in cute:
-        print(girls)
